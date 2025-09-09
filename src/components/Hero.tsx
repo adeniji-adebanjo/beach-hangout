@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex flex-col justify-center items-center text-center bg-[url('/memory1.png')] bg-cover bg-center text-white">
+    <section className="relative min-h-screen flex flex-col justify-center items-center backdrop-blur-lg backdrop-filter opacity-80 text-center bg-[url('/memory1.png')] bg-cover bg-center text-white">
       <motion.h1
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}

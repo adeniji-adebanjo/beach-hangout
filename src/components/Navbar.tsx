@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -37,7 +38,13 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
         {/* Logo */}
         <Link href="#hero" className="text-2xl font-bold tracking-wide">
-          Beach<span className="text-yellow-400">Hangout</span>
+          <Image
+            src="/NLWC_IKD-logo-colored.png"
+            alt="NLWC_logo"
+            width={80}
+            height={80}
+          />
+          {/* Beach<span className="text-yellow-400">Hangout</span> */}
         </Link>
 
         {/* Desktop Nav */}

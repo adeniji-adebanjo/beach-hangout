@@ -1,13 +1,25 @@
 "use client";
 
 import { motion } from "framer-motion";
+import {
+  FaVolleyballBall,
+  FaMusic,
+  FaGlassCheers,
+  FaHandshake,
+} from "react-icons/fa";
 
 const WhatToExpect = () => {
   const activities = [
-    { title: "Beach Games", icon: "🏐" },
-    { title: "Live Music", icon: "🎶" },
-    { title: "Food & Drinks", icon: "🍹" },
-    { title: "Networking", icon: "🤝" },
+    {
+      title: "Beach Games",
+      icon: <FaVolleyballBall className="text-yellow-600" />,
+    },
+    { title: "Live Music", icon: <FaMusic className="text-blue-500" /> },
+    {
+      title: "Food & Drinks",
+      icon: <FaGlassCheers className="text-pink-500" />,
+    },
+    { title: "Networking", icon: <FaHandshake className="text-green-600" /> },
   ];
 
   return (
@@ -29,7 +41,7 @@ const WhatToExpect = () => {
             transition={{ delay: i * 0.2 }}
             className="p-6 bg-yellow-100 rounded-2xl shadow-md"
           >
-            <div className="text-5xl mb-4">{a.icon}</div>
+            <div className="flex justify-center mb-4 text-4xl">{a.icon}</div>
             <h3 className="text-xl font-semibold">{a.title}</h3>
           </motion.div>
         ))}
