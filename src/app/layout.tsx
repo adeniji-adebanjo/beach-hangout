@@ -17,7 +17,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "NLWC Ikorodu Beach Hangout",
-  description: "Beach hangout description here...",
+  description: "Beach hangout is here again...",
 };
 
 export default function RootLayout({

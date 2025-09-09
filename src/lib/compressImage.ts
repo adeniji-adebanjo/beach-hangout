@@ -1,4 +1,3 @@
-import fs from "fs";
 import tinify from "tinify";
 
 if (!process.env.TINYPNG_API_KEY) {
