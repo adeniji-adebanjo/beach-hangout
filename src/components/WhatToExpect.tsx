@@ -14,16 +14,16 @@ const WhatToExpect = () => {
       title: "Beach Games",
       icon: <FaVolleyballBall className="text-yellow-600" />,
     },
-    { title: "Live Music", icon: <FaMusic className="text-blue-500" /> },
+    { title: "Music", icon: <FaMusic className="text-blue-500" /> },
     {
       title: "Food & Drinks",
       icon: <FaGlassCheers className="text-pink-500" />,
     },
-    { title: "Networking", icon: <FaHandshake className="text-green-600" /> },
+    { title: "Fellowship", icon: <FaHandshake className="text-green-600" /> },
   ];
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-white" id="what-to-expect">
       <motion.h2
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -32,7 +32,7 @@ const WhatToExpect = () => {
       >
         What to Expect This Year
       </motion.h2>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-6xl mx-auto text-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl mx-auto text-center">
         {activities.map((a, i) => (
           <motion.div
             key={i}

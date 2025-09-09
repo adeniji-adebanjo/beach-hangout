@@ -54,7 +54,7 @@ const BeachWearTabs = () => {
   const activeCategory = wearCategories.find((c) => c.title === activeTab);
 
   return (
-    <section className="py-20 bg-gradient-to-b from-yellow-50 to-white">
+    <section className="py-20 bg-gradient-to-b from-yellow-50 to-white" id="outfits">
       <motion.h2
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}

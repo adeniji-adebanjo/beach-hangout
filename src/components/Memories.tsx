@@ -63,6 +63,7 @@ const Memories = () => {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
       className="relative w-full py-20 bg-gray-100 text-center"
+      id="memories"
     >
       <h2 className="text-4xl font-bold text-gray-900 mb-12">
         Last Year Memories

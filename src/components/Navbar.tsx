@@ -22,7 +22,8 @@ const Navbar = () => {
     { name: "Home", href: "#hero" },
     { name: "Register", href: "#register" },
     { name: "Memories", href: "#memories" },
-    { name: "What to Expect", href: "#expect" },
+    { name: "What to Expect", href: "#what-to-expect" },
+    { name: "Beach Outfits", href: "#outfits" },
     { name: "FAQs", href: "#faqs" },
   ];
 
