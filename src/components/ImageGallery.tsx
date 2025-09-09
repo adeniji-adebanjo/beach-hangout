@@ -64,11 +64,13 @@ const DragDropGallery = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="text-4xl md:text-5xl font-bold text-center mb-8 text-gray-900"
+        className="text-4xl md:text-5xl font-bold text-center mb-2 text-gray-900"
       >
         User Gallery
       </motion.h2>
-
+      <p className="text-lg text-center text-gray-700 mb-8">
+        Share your moments with other brethren!
+      </p>
       {/* Drag & Drop */}
       <div
         onDragOver={(e) => {

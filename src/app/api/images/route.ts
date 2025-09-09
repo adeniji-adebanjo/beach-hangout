@@ -4,6 +4,8 @@ import { compressImage } from "@/lib/compressImage";
 import fs from "fs";
 import path from "path";
 
+export const runtime = "nodejs";
+
 const uploadsDir = path.join(process.cwd(), "public/uploads");
 
 // POST handler (existing)
