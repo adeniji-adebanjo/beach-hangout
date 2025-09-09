@@ -1,8 +1,10 @@
 import clientPromise from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
+import { compressImage } from "@/lib/compressImage";
 import fs from "fs";
+import path from "path";
 
-const uploadsDir = "./public/uploads";
+const uploadsDir = path.join(process.cwd(), "public/uploads");
 
 // POST handler (existing)
 export async function POST(req: NextRequest) {
@@ -18,9 +20,19 @@ export async function POST(req: NextRequest) {
     if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
 
     const fileName = `${Date.now()}-${fileEntry.name}`;
-    const filePath = `${uploadsDir}/${fileName}`;
-    fs.writeFileSync(filePath, buffer);
+    const tempPath = path.join(uploadsDir, "temp-" + fileName);
+    const finalPath = path.join(uploadsDir, fileName);
 
+    // Save original temporarily
+    fs.writeFileSync(tempPath, buffer);
+
+    // Compress using TinyPNG
+    await compressImage(tempPath, finalPath);
+
+    // Remove temp file
+    fs.unlinkSync(tempPath);
+
+    // Save URL to MongoDB
     const client = await clientPromise;
     const db = client.db("nlwc_gallery");
     const collection = db.collection("images");
