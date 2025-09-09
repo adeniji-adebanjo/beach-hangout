@@ -8,18 +8,23 @@ export const runtime = "nodejs";
 
 const uploadsDir = path.join(process.cwd(), "public/uploads");
 
-// POST handler (existing)
+// POST handler (with more logging)
 export async function POST(req: NextRequest) {
   try {
     const data = await req.formData();
     const fileEntry = data.get("file");
-    if (!fileEntry || !(fileEntry instanceof File))
+    if (!fileEntry || !(fileEntry instanceof File)) {
+      console.error("No file uploaded or fileEntry is not a File");
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
+    }
 
     const arrayBuffer = await fileEntry.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
+    if (!fs.existsSync(uploadsDir)) {
+      console.log("Uploads directory does not exist. Creating...");
+      fs.mkdirSync(uploadsDir);
+    }
 
     const fileName = `${Date.now()}-${fileEntry.name}`;
     const tempPath = path.join(uploadsDir, "temp-" + fileName);
@@ -27,26 +32,36 @@ export async function POST(req: NextRequest) {
 
     // Save original temporarily
     fs.writeFileSync(tempPath, buffer);
+    console.log(`Saved temp file: ${tempPath}`);
 
     // Compress using TinyPNG
     await compressImage(tempPath, finalPath);
+    console.log(`Compressed image saved to: ${finalPath}`);
 
     // Remove temp file
     fs.unlinkSync(tempPath);
+    console.log(`Temp file removed: ${tempPath}`);
 
     // Save URL to MongoDB
-    const client = await clientPromise;
-    const db = client.db("nlwc_gallery");
-    const collection = db.collection("images");
+    try {
+      const client = await clientPromise;
+      const db = client.db("nlwc_gallery");
+      const collection = db.collection("images");
 
-    await collection.insertOne({
-      url: `/uploads/${fileName}`,
-      uploadedAt: new Date(),
-    });
+      const result = await collection.insertOne({
+        url: `/uploads/${fileName}`,
+        uploadedAt: new Date(),
+      });
 
-    return NextResponse.json({ success: true, url: `/uploads/${fileName}` });
+      console.log("Image inserted:", result.insertedId);
+
+      return NextResponse.json({ success: true, url: `/uploads/${fileName}` });
+    } catch (dbError) {
+      console.error("Mongo insert error:", dbError);
+      return NextResponse.json({ error: "Database error" }, { status: 500 });
+    }
   } catch (error) {
-    console.error(error);
+    console.error("General POST error:", error);
     return NextResponse.json(
       { error: "Failed to upload image" },
       { status: 500 }
@@ -54,7 +69,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// GET handler (add this)
+// GET handler (fix _id.toString())
 export async function GET() {
   try {
     const client = await clientPromise;
@@ -63,7 +78,13 @@ export async function GET() {
 
     const images = await collection.find({}).sort({ uploadedAt: -1 }).toArray();
 
-    return NextResponse.json(images);
+    // Convert _id to string for each image
+    const imagesWithId = images.map((img) => ({
+      ...img,
+      _id: img._id?.toString(),
+    }));
+
+    return NextResponse.json(imagesWithId);
   } catch (error) {
     console.error(error);
     return NextResponse.json(
