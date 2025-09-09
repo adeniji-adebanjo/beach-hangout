@@ -49,8 +49,8 @@ const Registration = () => {
         Exciting times are here. We are hanging out again as a family this year
         and hope to see you there.
         {"\n\n"}
-        It'll be a time of bonding, walking in love, fun and getting to know one
-        another again.
+        It&apos;ll be a time of bonding, walking in love, fun and getting to
+        know one another again.
         {"\n\n"}
         Let us know your availability by filling this form
         {"\n\n"}
