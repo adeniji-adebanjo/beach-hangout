@@ -15,7 +15,16 @@ const DragDropGallery = () => {
   useEffect(() => {
     const fetchImages = async () => {
       const res = await fetch("/api/images");
-      const data = await res.json();
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        data = [];
+      }
+      // If API returns an error object, fallback to empty array
+      if (!Array.isArray(data)) {
+        data = [];
+      }
       setImages(data);
     };
     fetchImages();
