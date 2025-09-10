@@ -20,6 +20,7 @@ type FormValues = {
 
 const Registration = () => {
   const [open, setOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const {
     register,
     handleSubmit,
@@ -29,10 +30,53 @@ const Registration = () => {
   } = useForm<FormValues>();
   const comingWithValue = watch("comingWith");
 
+  type ApiResponse = {
+    success: boolean;
+    error?: string;
+  };
+
   const onSubmit = async (data: FormValues) => {
-    console.log("Form submitted:", data);
-    alert("Form submitted successfully!");
-    setOpen(false);
+    setSubmitting(true);
+
+    try {
+      const response = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      // Parse JSON with proper typing
+      let result: ApiResponse = { success: false };
+      try {
+        result = (await response.json()) as ApiResponse;
+      } catch (jsonError) {
+        console.error("Failed to parse JSON response:", jsonError);
+        alert("⚠️ Unexpected response from the server.");
+        return;
+      }
+
+      if (response.ok && result.success) {
+        alert("✅ Form submitted successfully!");
+        setOpen(false);
+      } else {
+        const errorMsg =
+          typeof result === "object" && result.error
+            ? result.error
+            : "Unknown error occurred";
+        console.error("Submission error:", errorMsg);
+        alert(`⚠️ Error submitting form: ${errorMsg}`);
+      }
+    } catch (networkError) {
+      console.error("Network error:", networkError);
+      alert("🚨 Network error. Please check your connection and try again.");
+    } finally {
+      setSubmitting(false);
+    }
+
+    console.log(
+      "Google Script URL:",
+      process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL
+    );
   };
 
   return (
@@ -178,6 +222,7 @@ const Registration = () => {
                 </label>
                 <select
                   className="mt-1 w-full border rounded px-3 py-2"
+                  defaultValue=""
                   {...register("category", {
                     required: "Please select a category",
                   })}
@@ -202,6 +247,7 @@ const Registration = () => {
                 </label>
                 <select
                   className="mt-1 w-full border rounded px-3 py-2"
+                  defaultValue=""
                   {...register("maritalStatus", {
                     required: "Please select your marital status",
                   })}
@@ -226,6 +272,7 @@ const Registration = () => {
                 </label>
                 <select
                   className="mt-1 w-full border rounded px-3 py-2"
+                  defaultValue=""
                   {...register("comingWith", {
                     required: "Please select an option",
                   })}
@@ -273,6 +320,7 @@ const Registration = () => {
                   </label>
                   <select
                     className="mt-1 w-full border rounded px-3 py-2"
+                    defaultValue=""
                     {...register("payingForGuest")}
                   >
                     <option value="" disabled>
@@ -287,9 +335,36 @@ const Registration = () => {
               <div className="text-center mt-6">
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-600 transition"
+                  className="bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-600 transition flex items-center justify-center"
+                  disabled={submitting}
                 >
-                  Submit
+                  {submitting ? (
+                    <>
+                      <svg
+                        className="animate-spin h-5 w-5 mr-2 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                        />
+                      </svg>
+                      Submitting…
+                    </>
+                  ) : (
+                    "Submit"
+                  )}
                 </button>
               </div>
             </form>

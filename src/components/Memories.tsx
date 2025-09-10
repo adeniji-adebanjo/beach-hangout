@@ -120,6 +120,7 @@ const Memories = () => {
                   alt="Clip"
                   width={100}
                   height={100}
+                  style={{ width: "auto", height: "100%" }}
                   className="h-full object-contain"
                 />
               </div>

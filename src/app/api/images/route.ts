@@ -4,14 +4,14 @@ import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
 
 export const runtime = "nodejs";
 
-// Configure Cloudinary with env vars
+// Configure Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// POST handler - upload image to Cloudinary + save URL in MongoDB
+// POST handler - upload image
 export async function POST(req: NextRequest) {
   try {
     const data = await req.formData();
@@ -24,23 +24,27 @@ export async function POST(req: NextRequest) {
     const arrayBuffer = await fileEntry.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    // Upload to Cloudinary (with auto compression/optimization)
-    const uploadResult = await new Promise((resolve, reject) => {
-      cloudinary.uploader
-        .upload_stream(
-          {
-            folder: "nlwc_gallery",
-            transformation: [{ quality: "auto", fetch_format: "auto" }],
-          },
-          (error: unknown, result?: UploadApiResponse) => {
-            if (error) reject(error);
-            else resolve(result);
-          }
-        )
-        .end(buffer);
-    });
+    // Upload to Cloudinary
+    const uploadResult = (await new Promise<UploadApiResponse>(
+      (resolve, reject) => {
+        cloudinary.uploader
+          .upload_stream(
+            {
+              folder: "nlwc_gallery",
+              transformation: [{ quality: "auto", fetch_format: "auto" }],
+            },
+            (error, result) => {
+              if (error) reject(error);
+              else resolve(result!);
+            }
+          )
+          .end(buffer);
+      }
+    )) as UploadApiResponse;
 
-    const result = uploadResult as { secure_url: string };
+    if (!uploadResult.secure_url) {
+      throw new Error("Cloudinary upload failed: no secure URL returned");
+    }
 
     // Save URL to MongoDB
     const client = await clientPromise;
@@ -48,15 +52,18 @@ export async function POST(req: NextRequest) {
     const collection = db.collection("images");
 
     const insertResult = await collection.insertOne({
-      url: result.secure_url,
+      url: uploadResult.secure_url,
       uploadedAt: new Date(),
     });
 
-    return NextResponse.json({
-      success: true,
-      url: result.secure_url,
-      id: insertResult.insertedId.toString(),
-    });
+    // Return the full image object directly
+    const imageObject = {
+      _id: insertResult.insertedId.toString(),
+      url: uploadResult.secure_url,
+      uploadedAt: new Date(),
+    };
+
+    return NextResponse.json({ success: true, image: imageObject });
   } catch (error) {
     console.error("Upload error:", error);
     return NextResponse.json(
@@ -66,7 +73,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// GET handler - fetch images from MongoDB
+// GET handler - fetch images
 export async function GET() {
   try {
     const client = await clientPromise;
@@ -80,9 +87,9 @@ export async function GET() {
       _id: img._id?.toString(),
     }));
 
-    return NextResponse.json(imagesWithId);
+    return NextResponse.json({ success: true, images: imagesWithId });
   } catch (error) {
-    console.error(error);
+    console.error("Fetch images error:", error);
     return NextResponse.json(
       { error: "Failed to fetch images" },
       { status: 500 }
