@@ -120,9 +120,9 @@ const Registration = () => {
                 </div>
               </div>
 
-              {/* Phone & Email side-by-side */}
-              <div className="flex gap-4">
-                <div className="flex-1">
+              {/* Email above Phone on mobile, side-by-side on larger screens */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex-1 order-2 sm:order-1">
                   <label className="block font-medium">Phone Number *</label>
                   <Controller
                     name="phone"
@@ -149,7 +149,7 @@ const Registration = () => {
                     </p>
                   )}
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 order-1 sm:order-2">
                   <label className="block font-medium">Email Address *</label>
                   <input
                     type="email"
