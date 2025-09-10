@@ -5,7 +5,7 @@ import Memories from "@/components/Memories";
 import WhatToExpect from "@/components/WhatToExpect";
 import Outfits from "@/components/Outfits";
 import FAQs from "@/components/FAQs";
-// import ImageGallery from "@/components/ImageGallery";
+import ImageGallery from "@/components/ImageGallery";
 import Footer from "@/components/Footer";
 
 export default function BeachHangoutPage() {
@@ -18,7 +18,7 @@ export default function BeachHangoutPage() {
       <WhatToExpect />
       <Outfits />
       <FAQs />
-      {/* <ImageGallery /> */}
+      <ImageGallery />
       <Footer />
     </main>
   );

@@ -1,67 +1,64 @@
 import clientPromise from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
-import { compressImage } from "@/lib/compressImage";
-import fs from "fs";
-import path from "path";
+import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
 
 export const runtime = "nodejs";
 
-const uploadsDir = path.join(process.cwd(), "public/uploads");
+// Configure Cloudinary with env vars
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-// POST handler (with more logging)
+// POST handler - upload image to Cloudinary + save URL in MongoDB
 export async function POST(req: NextRequest) {
   try {
     const data = await req.formData();
     const fileEntry = data.get("file");
+
     if (!fileEntry || !(fileEntry instanceof File)) {
-      console.error("No file uploaded or fileEntry is not a File");
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
 
     const arrayBuffer = await fileEntry.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    if (!fs.existsSync(uploadsDir)) {
-      console.log("Uploads directory does not exist. Creating...");
-      fs.mkdirSync(uploadsDir);
-    }
+    // Upload to Cloudinary (with auto compression/optimization)
+    const uploadResult = await new Promise((resolve, reject) => {
+      cloudinary.uploader
+        .upload_stream(
+          {
+            folder: "nlwc_gallery",
+            transformation: [{ quality: "auto", fetch_format: "auto" }],
+          },
+          (error: unknown, result?: UploadApiResponse) => {
+            if (error) reject(error);
+            else resolve(result);
+          }
+        )
+        .end(buffer);
+    });
 
-    const fileName = `${Date.now()}-${fileEntry.name}`;
-    const tempPath = path.join(uploadsDir, "temp-" + fileName);
-    const finalPath = path.join(uploadsDir, fileName);
-
-    // Save original temporarily
-    fs.writeFileSync(tempPath, buffer);
-    console.log(`Saved temp file: ${tempPath}`);
-
-    // Compress using TinyPNG
-    await compressImage(tempPath, finalPath);
-    console.log(`Compressed image saved to: ${finalPath}`);
-
-    // Remove temp file
-    fs.unlinkSync(tempPath);
-    console.log(`Temp file removed: ${tempPath}`);
+    const result = uploadResult as { secure_url: string };
 
     // Save URL to MongoDB
-    try {
-      const client = await clientPromise;
-      const db = client.db("nlwc_gallery");
-      const collection = db.collection("images");
+    const client = await clientPromise;
+    const db = client.db("nlwc_gallery");
+    const collection = db.collection("images");
 
-      const result = await collection.insertOne({
-        url: `/uploads/${fileName}`,
-        uploadedAt: new Date(),
-      });
+    const insertResult = await collection.insertOne({
+      url: result.secure_url,
+      uploadedAt: new Date(),
+    });
 
-      console.log("Image inserted:", result.insertedId);
-
-      return NextResponse.json({ success: true, url: `/uploads/${fileName}` });
-    } catch (dbError) {
-      console.error("Mongo insert error:", dbError);
-      return NextResponse.json({ error: "Database error" }, { status: 500 });
-    }
+    return NextResponse.json({
+      success: true,
+      url: result.secure_url,
+      id: insertResult.insertedId.toString(),
+    });
   } catch (error) {
-    console.error("General POST error:", error);
+    console.error("Upload error:", error);
     return NextResponse.json(
       { error: "Failed to upload image" },
       { status: 500 }
@@ -69,7 +66,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// GET handler (fix _id.toString())
+// GET handler - fetch images from MongoDB
 export async function GET() {
   try {
     const client = await clientPromise;
@@ -78,7 +75,6 @@ export async function GET() {
 
     const images = await collection.find({}).sort({ uploadedAt: -1 }).toArray();
 
-    // Convert _id to string for each image
     const imagesWithId = images.map((img) => ({
       ...img,
       _id: img._id?.toString(),
