@@ -29,7 +29,7 @@ const faqs = [
   {
     question: "Is there a drop-off point or parking?",
     answer:
-      "Yes, there will be designated parking areas at the EGFM office in Kosofe and a convenient drop-off point (at Ikorodu Garage) for those coming from Ikorodu.",
+      "Yes, there will be designated parking areas at the EGFM office in Kosofe which also doubles as the drop-off point.",
   },
 ];
 

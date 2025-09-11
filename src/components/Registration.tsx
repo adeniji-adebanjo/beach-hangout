@@ -120,7 +120,7 @@ const Registration = () => {
               {/* First Name & Last Name side-by-side */}
               <div className="flex gap-4">
                 <div className="flex-1">
-                  <label className="block font-medium text-[#d23915]">
+                  <label className="block font-normal text-[#d23915]">
                     First Name *
                   </label>
                   <input
@@ -140,7 +140,7 @@ const Registration = () => {
                   )}
                 </div>
                 <div className="flex-1">
-                  <label className="block font-medium text-[#d23915]">
+                  <label className="block font-normal text-[#d23915]">
                     Last Name *
                   </label>
                   <input
@@ -164,7 +164,7 @@ const Registration = () => {
               {/* Email above Phone on mobile, side-by-side on larger screens */}
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1 order-2 sm:order-1">
-                  <label className="block font-medium text-[#d23915]">
+                  <label className="block font-normal text-[#d23915]">
                     Phone Number *
                   </label>
                   <Controller
@@ -196,7 +196,7 @@ const Registration = () => {
                   )}
                 </div>
                 <div className="flex-1 order-1 sm:order-2">
-                  <label className="block font-medium text-[#d23915]">
+                  <label className="block font-normal text-[#d23915]">
                     Email Address *
                   </label>
                   <input
@@ -223,7 +223,7 @@ const Registration = () => {
 
               {/* Category */}
               <div>
-                <label className="block font-medium text-[#d23915]">
+                <label className="block font-normal text-[#d23915]">
                   Which category do you fall under? *
                 </label>
                 <select
@@ -250,7 +250,7 @@ const Registration = () => {
 
               {/* Marital Status */}
               <div>
-                <label className="block font-medium text-[#d23915]">
+                <label className="block font-normal text-[#d23915]">
                   Are you single or married? *
                 </label>
                 <select
@@ -277,7 +277,7 @@ const Registration = () => {
 
               {/* Coming With */}
               <div>
-                <label className="block font-medium text-[#d23915]">
+                <label className="block font-normal text-[#d23915]">
                   Would you be coming with child(ren) or with someone? *
                 </label>
                 <select
@@ -312,7 +312,7 @@ const Registration = () => {
               {(comingWithValue === "Yes" ||
                 comingWithValue === "Coming with a Guest") && (
                 <div>
-                  <label className="block font-medium text-[#d23915]">
+                  <label className="block font-normal text-[#d23915]">
                     Please share their full name(s)
                   </label>
                   <input
@@ -329,7 +329,7 @@ const Registration = () => {
               {/* Paying For Guest */}
               {comingWithValue === "Yes" && (
                 <div>
-                  <label className="block font-medium text-[#d23915]">
+                  <label className="block font-normal text-[#d23915]">
                     Would you be the one paying for them?
                   </label>
                   <select
