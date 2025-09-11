@@ -7,12 +7,12 @@ import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 
 const images = [
-  "/memory1.png",
-  "/memory2.png",
-  "/memory3.png",
-  "/memory4.png",
-  "/memory5.png",
-  "/memory6.png",
+  "/memories/memory1.png",
+  "/memories/memory2.png",
+  "/memories/memory3.png",
+  "/memories/memory4.png",
+  "/memories/memory5.png",
+  "/memories/memory6.png",
 ];
 
 const Memories = () => {

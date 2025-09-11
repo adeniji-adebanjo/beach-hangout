@@ -123,6 +123,7 @@ const DragDropGallery = () => {
                 height={400}
                 className="w-full h-full object-cover"
                 loading="lazy"
+                unoptimized
               />
 
               {/* Download Button */}
