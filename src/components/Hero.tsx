@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 const Hero = () => {
   return (
     <section
-      className="relative min-h-screen flex flex-col justify-center items-center backdrop-blur-lg backdrop-filter opacity-80 text-center bg-[url('/memory1.png')] bg-cover bg-center text-white"
+      className="relative min-h-screen flex flex-col justify-center items-center backdrop-blur-lg backdrop-filter opacity-80 text-center bg-[url('/memories/memory1.png')] bg-cover bg-center text-white"
       id="hero"
     >
       <motion.h1
