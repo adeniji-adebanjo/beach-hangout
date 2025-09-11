@@ -25,9 +25,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body
-        className={`${courgette.variable} ${inter.variable} ${courgette.className} ${inter.className} antialiased`}
-      >
+      <body className={`${courgette.variable} ${inter.variable} antialiased`}>
         {children}
       </body>
     </html>

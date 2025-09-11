@@ -96,7 +96,7 @@ const Registration = () => {
 
       <motion.button
         whileHover={{ scale: 1.05 }}
-        className="bg-blue-500 text-white py-3 px-8 rounded-lg font-semibold mb-4 cursor-pointer hover:bg-blue-600 transition"
+        className="bg-[#d23915] text-white py-3 px-8 rounded-lg font-semibold mb-4 cursor-pointer hover:bg-[#b72318] transition"
         onClick={() => setOpen(true)}
       >
         Open Registration Form
@@ -120,11 +120,15 @@ const Registration = () => {
               {/* First Name & Last Name side-by-side */}
               <div className="flex gap-4">
                 <div className="flex-1">
-                  <label className="block font-medium">First Name *</label>
+                  <label className="block font-medium text-[#d23915]">
+                    First Name *
+                  </label>
                   <input
                     type="text"
                     placeholder="e.g James"
-                    className="mt-1 w-full border rounded px-3 py-2"
+                    className="mt-1 w-full border border-gray-300 rounded px-3 py-2 
+                   text-[#000000] placeholder:text-gray-400
+                   focus:border-[#ed7814] focus:ring-0"
                     {...register("firstName", {
                       required: "First name is required",
                     })}
@@ -136,11 +140,15 @@ const Registration = () => {
                   )}
                 </div>
                 <div className="flex-1">
-                  <label className="block font-medium">Last Name *</label>
+                  <label className="block font-medium text-[#d23915]">
+                    Last Name *
+                  </label>
                   <input
                     type="text"
                     placeholder="e.g Folasayo"
-                    className="mt-1 w-full border rounded px-3 py-2"
+                    className="mt-1 w-full border border-gray-300 rounded px-3 py-2 
+                   text-[#000000] placeholder:text-gray-400
+                   focus:border-[#ed7814] focus:ring-0"
                     {...register("lastName", {
                       required: "Last name is required",
                     })}
@@ -156,7 +164,9 @@ const Registration = () => {
               {/* Email above Phone on mobile, side-by-side on larger screens */}
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1 order-2 sm:order-1">
-                  <label className="block font-medium">Phone Number *</label>
+                  <label className="block font-medium text-[#d23915]">
+                    Phone Number *
+                  </label>
                   <Controller
                     name="phone"
                     control={control}
@@ -172,7 +182,9 @@ const Registration = () => {
                         {...field}
                         country="ng"
                         placeholder="+234 ..."
-                        inputClass="w-full border rounded px-3 py-2"
+                        inputClass="w-full border border-gray-300 rounded px-3 py-2 
+                        text-[#000000] placeholder:text-gray-400
+                        focus:border-[#ed7814] focus:ring-0"
                         containerClass="w-full"
                       />
                     )}
@@ -184,11 +196,15 @@ const Registration = () => {
                   )}
                 </div>
                 <div className="flex-1 order-1 sm:order-2">
-                  <label className="block font-medium">Email Address *</label>
+                  <label className="block font-medium text-[#d23915]">
+                    Email Address *
+                  </label>
                   <input
                     type="email"
                     placeholder="e.g james@example.com"
-                    className="mt-1 w-full border rounded px-3 py-2"
+                    className="mt-1 w-full border border-gray-300 rounded px-3 py-2 
+                   text-[#000000] placeholder:text-gray-400
+                   focus:border-[#ed7814] focus:ring-0"
                     {...register("email", {
                       required: "Email address is required",
                       pattern: {
@@ -207,11 +223,13 @@ const Registration = () => {
 
               {/* Category */}
               <div>
-                <label className="block font-medium">
+                <label className="block font-medium text-[#d23915]">
                   Which category do you fall under? *
                 </label>
                 <select
-                  className="mt-1 w-full border rounded px-3 py-2"
+                  className="mt-1 w-full border border-gray-300 rounded px-3 py-2 
+                 text-[#000000] placeholder:text-gray-400
+                 focus:border-[#ed7814] focus:ring-0"
                   defaultValue=""
                   {...register("category", {
                     required: "Please select a category",
@@ -232,11 +250,13 @@ const Registration = () => {
 
               {/* Marital Status */}
               <div>
-                <label className="block font-medium">
+                <label className="block font-medium text-[#d23915]">
                   Are you single or married? *
                 </label>
                 <select
-                  className="mt-1 w-full border rounded px-3 py-2"
+                  className="mt-1 w-full border border-gray-300 rounded px-3 py-2 
+                 text-[#000000] placeholder:text-gray-400
+                 focus:border-[#ed7814] focus:ring-0"
                   defaultValue=""
                   {...register("maritalStatus", {
                     required: "Please select your marital status",
@@ -257,11 +277,13 @@ const Registration = () => {
 
               {/* Coming With */}
               <div>
-                <label className="block font-medium">
+                <label className="block font-medium text-[#d23915]">
                   Would you be coming with child(ren) or with someone? *
                 </label>
                 <select
-                  className="mt-1 w-full border rounded px-3 py-2"
+                  className="mt-1 w-full border border-gray-300 rounded px-3 py-2 
+                 text-[#000000] placeholder:text-gray-400
+                 focus:border-[#ed7814] focus:ring-0"
                   defaultValue=""
                   {...register("comingWith", {
                     required: "Please select an option",
@@ -290,13 +312,15 @@ const Registration = () => {
               {(comingWithValue === "Yes" ||
                 comingWithValue === "Coming with a Guest") && (
                 <div>
-                  <label className="block font-medium">
+                  <label className="block font-medium text-[#d23915]">
                     Please share their full name(s)
                   </label>
                   <input
                     type="text"
                     placeholder="Enter guest names separated by commas"
-                    className="mt-1 w-full border rounded px-3 py-2"
+                    className="mt-1 w-full border border-gray-300 rounded px-3 py-2 
+                   text-[#000000] placeholder:text-gray-400
+                   focus:border-[#ed7814] focus:ring-0"
                     {...register("guestNames")}
                   />
                 </div>
@@ -305,11 +329,13 @@ const Registration = () => {
               {/* Paying For Guest */}
               {comingWithValue === "Yes" && (
                 <div>
-                  <label className="block font-medium">
+                  <label className="block font-medium text-[#d23915]">
                     Would you be the one paying for them?
                   </label>
                   <select
-                    className="mt-1 w-full border rounded px-3 py-2"
+                    className="mt-1 w-full border border-gray-300 rounded px-3 py-2 
+                   text-[#000000] placeholder:text-gray-400
+                   focus:border-[#ed7814] focus:ring-0"
                     defaultValue=""
                     {...register("payingForGuest")}
                   >
@@ -325,7 +351,7 @@ const Registration = () => {
               <div className="text-center mt-6">
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white cursor-pointer px-6 py-3 rounded-lg font-semibold hover:bg-blue-600 transition flex items-center justify-center"
+                  className="bg-[#d23915] text-white cursor-pointer px-6 py-3 rounded-lg font-semibold hover:bg-[#b72318] transition flex items-center justify-center"
                   disabled={submitting}
                 >
                   {submitting ? (

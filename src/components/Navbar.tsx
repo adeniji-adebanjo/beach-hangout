@@ -58,7 +58,7 @@ const Navbar = () => {
               <li key={item.name}>
                 <a
                   href={item.href}
-                  className="hover:text-yellow-400 transition-colors"
+                  className="hover:text-primary-color transition-colors"
                 >
                   {item.name}
                 </a>
@@ -104,7 +104,7 @@ const Navbar = () => {
                 href={item.href}
                 onClick={() => setIsOpen(false)}
                 whileHover={{ scale: 1.1 }}
-                className="hover:text-yellow-400 transition-colors"
+                className="hover:text-primary-color transition-colors"
               >
                 {item.name}
               </motion.a>

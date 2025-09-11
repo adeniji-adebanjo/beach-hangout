@@ -5,9 +5,11 @@
   --foreground: #171717;
   --color-background: #ffffff;
   --color-foreground: #171717;
-  --font-headline: var(--font-courgette);
-  --font-body: var(--font-inter);
-  --headline-color: #222222;
+  --headline-color: #b72318;
+  --primary-color: #d23915;
+  --secondary-color: #ed7814;
+  --accent-color: #e75912;
+  --neutral-color: #000000;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -16,7 +18,7 @@
     --foreground: #ededed;
     --color-background: #0a0a0a;
     --color-foreground: #ededed;
-    --headline-color: #fafafa;
+    --headline-color: #ed7814;
   }
 }
 
