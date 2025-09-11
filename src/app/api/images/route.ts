@@ -11,6 +11,12 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+// Helper to get error message from unknown
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) return error.message;
+  return String(error);
+}
+
 // POST handler - upload image
 export async function POST(req: NextRequest) {
   try {
@@ -64,12 +70,10 @@ export async function POST(req: NextRequest) {
     };
 
     return NextResponse.json({ success: true, image: imageObject });
-  } catch (error) {
-    console.error("Upload error:", error);
-    return NextResponse.json(
-      { error: "Failed to upload image" },
-      { status: 500 }
-    );
+  } catch (error: unknown) {
+    const message = getErrorMessage(error);
+    console.error("Upload error:", message);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -88,11 +92,9 @@ export async function GET() {
     }));
 
     return NextResponse.json({ success: true, images: imagesWithId });
-  } catch (error) {
-    console.error("Fetch images error:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch images" },
-      { status: 500 }
-    );
+  } catch (error: unknown) {
+    const message = getErrorMessage(error);
+    console.error("Fetch images error:", message);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
