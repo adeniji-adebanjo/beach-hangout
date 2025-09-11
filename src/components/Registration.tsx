@@ -94,6 +94,19 @@ const Registration = () => {
         NO AFRICAN TIME!
       </p>
 
+      {/* WhatsApp Help Text */}
+      <p className="mb-4 text-gray-600">
+        Having a challenge with the form? Send a message via WhatsApp to{" "}
+        <a
+          href="https://wa.me/2348063629277"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[#d23915] underline hover:text-[#b72318]"
+        >
+          Sis Wura
+        </a>
+        .
+      </p>
       <motion.button
         whileHover={{ scale: 1.05 }}
         className="bg-[#d23915] text-white py-3 px-8 rounded-lg font-semibold mb-4 cursor-pointer hover:bg-[#b72318] transition"
@@ -355,6 +368,19 @@ const Registration = () => {
               )}
 
               <div className="text-center mt-6">
+                <p className="mb-4 text-gray-600">
+                  Having a challenge with the form? Send a message via WhatsApp
+                  to{" "}
+                  <a
+                    href="https://wa.me/2348063629277"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#d23915] underline hover:text-[#b72318]"
+                  >
+                    Sis Wura
+                  </a>
+                  .
+                </p>
                 <button
                   type="submit"
                   className="bg-[#d23915] text-white cursor-pointer px-6 py-3 rounded-lg font-semibold hover:bg-[#b72318] transition flex items-center justify-center"
