@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FaArrowUp } from "react-icons/fa"; // Import the arrow-up icon
+import { FaArrowUp } from "react-icons/fa";
 
 const ScrollToTop = () => {
   const [showScroll, setShowScroll] = useState(false);

@@ -3,6 +3,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { FaArrowDown } from "react-icons/fa";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const IMAGES_PER_PAGE = 8;
 
@@ -15,17 +17,12 @@ const DragDropGallery = () => {
   useEffect(() => {
     const fetchImages = async () => {
       const res = await fetch("/api/images");
-      let data;
-      try {
-        data = await res.json();
-      } catch {
-        data = [];
+      const data = await res.json();
+      if (data.success && Array.isArray(data.images)) {
+        setImages(data.images);
+      } else {
+        setImages([]);
       }
-      // If API returns an error object, fallback to empty array
-      if (!Array.isArray(data)) {
-        data = [];
-      }
-      setImages(data);
     };
     fetchImages();
   }, []);
@@ -40,8 +37,8 @@ const DragDropGallery = () => {
     });
 
     const data = await res.json();
-    if (data.url) {
-      setImages((prev) => [{ url: data.url }, ...prev]);
+    if (data.success && data.image?.url) {
+      setImages((prev) => [data.image, ...prev]); // prepend the new image
     }
   }, []);
 
@@ -116,8 +113,9 @@ const DragDropGallery = () => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               whileHover={{ scale: 1.05 }}
-              className="overflow-hidden rounded-2xl shadow-lg border border-gray-200 bg-white"
+              className="relative overflow-hidden rounded-2xl shadow-lg border border-gray-200 bg-white group"
             >
+              {/* Image */}
               <Image
                 src={img.url}
                 alt={`uploaded-${i}`}
@@ -126,6 +124,18 @@ const DragDropGallery = () => {
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
+
+              {/* Download Button */}
+              <a
+                href={img.url}
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute top-3 right-3 bg-white text-gray-700 p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition"
+                title="Download image"
+              >
+                <FaArrowDown size={10} />
+              </a>
             </motion.div>
           ))}
         </AnimatePresence>
@@ -133,30 +143,52 @@ const DragDropGallery = () => {
 
       {/* Pagination */}
       {images.length > IMAGES_PER_PAGE && (
-        <div className="flex justify-center mt-8 gap-4">
+        <div className="flex justify-center mt-8 items-center gap-2">
+          {/* Prev */}
           <button
             onClick={() => page > 0 && setPage(page - 1)}
             disabled={page === 0}
-            className={`px-4 py-2 rounded-lg font-medium ${
+            className={`p-2 rounded-full cursor-pointer ${
               page === 0
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-yellow-400 text-white hover:bg-yellow-500 transition"
+                : "bg-[#d23915] text-white hover:bg-[#b72318] transition"
             }`}
+            aria-label="Previous Page"
           >
-            Previous
+            <ChevronLeft size={20} />
           </button>
+
+          {/* Page Numbers */}
+          {Array.from({
+            length: Math.ceil(images.length / IMAGES_PER_PAGE),
+          }).map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setPage(index)}
+              className={`px-3 py-1 rounded-md font-medium transition cursor-pointer ${
+                page === index
+                  ? "bg-[#d23915] text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
+
+          {/* Next */}
           <button
             onClick={() =>
               (page + 1) * IMAGES_PER_PAGE < images.length && setPage(page + 1)
             }
             disabled={(page + 1) * IMAGES_PER_PAGE >= images.length}
-            className={`px-4 py-2 rounded-lg font-medium ${
+            className={`p-2 rounded-full ${
               (page + 1) * IMAGES_PER_PAGE >= images.length
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-yellow-400 text-white hover:bg-yellow-500 transition"
+                : "bg-[#d23915] text-white hover:bg-[#b72318] transition"
             }`}
+            aria-label="Next Page"
           >
-            Next
+            <ChevronRight size={20} />
           </button>
         </div>
       )}
