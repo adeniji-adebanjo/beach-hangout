@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import { useForm, Controller } from "react-hook-form";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type FormValues = {
   firstName: string;
@@ -26,12 +28,14 @@ const Registration = () => {
     handleSubmit,
     control,
     watch,
+    reset,
     formState: { errors },
   } = useForm<FormValues>();
   const comingWithValue = watch("comingWith");
 
   type ApiResponse = {
     success: boolean;
+    data?: unknown;
     error?: string;
   };
 
@@ -45,42 +49,27 @@ const Registration = () => {
         body: JSON.stringify(data),
       });
 
-      // Parse JSON with proper typing
-      let result: ApiResponse = { success: false };
-      try {
-        result = (await response.json()) as ApiResponse;
-      } catch (jsonError) {
-        console.error("Failed to parse JSON response:", jsonError);
-        alert("⚠️ Unexpected response from the server.");
-        return;
-      }
+      const result = (await response.json()) as ApiResponse;
 
       if (response.ok && result.success) {
-        alert("✅ Form submitted successfully!");
+        toast.success("Registration submitted successfully!");
+        reset();
         setOpen(false);
       } else {
-        const errorMsg =
-          typeof result === "object" && result.error
-            ? result.error
-            : "Unknown error occurred";
-        console.error("Submission error:", errorMsg);
-        alert(`⚠️ Error submitting form: ${errorMsg}`);
+        console.error("Submission error:", result.error ?? "Unknown error");
+        toast.error("Error submitting registration. Please try again.");
       }
-    } catch (networkError) {
-      console.error("Network error:", networkError);
-      alert("🚨 Network error. Please check your connection and try again.");
+    } catch (error) {
+      console.error("Network error:", error);
+      toast.error("Network error. Please check your connection and try again.");
     } finally {
       setSubmitting(false);
     }
-
-    console.log(
-      "Google Script URL:",
-      process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL
-    );
   };
 
   return (
     <section id="register" className="py-20 bg-white text-center">
+      <ToastContainer />
       <motion.h2
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -107,7 +96,7 @@ const Registration = () => {
 
       <motion.button
         whileHover={{ scale: 1.05 }}
-        className="bg-blue-500 text-white py-3 px-8 rounded-lg font-semibold mb-4"
+        className="bg-blue-500 text-white py-3 px-8 rounded-lg font-semibold mb-4 cursor-pointer hover:bg-blue-600 transition"
         onClick={() => setOpen(true)}
       >
         Open Registration Form
@@ -184,6 +173,7 @@ const Registration = () => {
                         country="ng"
                         placeholder="+234 ..."
                         inputClass="w-full border rounded px-3 py-2"
+                        containerClass="w-full"
                       />
                     )}
                   />
@@ -335,7 +325,7 @@ const Registration = () => {
               <div className="text-center mt-6">
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-600 transition flex items-center justify-center"
+                  className="bg-blue-500 text-white cursor-pointer px-6 py-3 rounded-lg font-semibold hover:bg-blue-600 transition flex items-center justify-center"
                   disabled={submitting}
                 >
                   {submitting ? (
