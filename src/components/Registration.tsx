@@ -228,8 +228,8 @@ const Registration = () => {
                 </label>
                 <select
                   className="mt-1 w-full border border-gray-300 rounded px-3 py-2 
-                 text-[#000000] placeholder:text-gray-400
-                 focus:border-[#ed7814] focus:ring-0"
+      text-[#000000] placeholder:text-gray-400
+      focus:border-[#ed7814] focus:ring-0"
                   defaultValue=""
                   {...register("category", {
                     required: "Please select a category",
@@ -248,32 +248,34 @@ const Registration = () => {
                 )}
               </div>
 
-              {/* Marital Status */}
-              <div>
-                <label className="block font-normal text-[#d23915]">
-                  Are you single or married? *
-                </label>
-                <select
-                  className="mt-1 w-full border border-gray-300 rounded px-3 py-2 
-                 text-[#000000] placeholder:text-gray-400
-                 focus:border-[#ed7814] focus:ring-0"
-                  defaultValue=""
-                  {...register("maritalStatus", {
-                    required: "Please select your marital status",
-                  })}
-                >
-                  <option value="" disabled>
-                    Select
-                  </option>
-                  <option value="Single">Single</option>
-                  <option value="Married">Married</option>
-                </select>
-                {errors.maritalStatus && (
-                  <p className="text-red-500 text-sm">
-                    {errors.maritalStatus.message}
-                  </p>
-                )}
-              </div>
+              {/* Marital Status - Display only if category is "Adult" */}
+              {watch("category") === "Adult" && (
+                <div>
+                  <label className="block font-normal text-[#d23915]">
+                    Are you single or married? *
+                  </label>
+                  <select
+                    className="mt-1 w-full border border-gray-300 rounded px-3 py-2 
+        text-[#000000] placeholder:text-gray-400
+        focus:border-[#ed7814] focus:ring-0"
+                    defaultValue=""
+                    {...register("maritalStatus", {
+                      required: "Please select your marital status",
+                    })}
+                  >
+                    <option value="" disabled>
+                      Select
+                    </option>
+                    <option value="Single">Single</option>
+                    <option value="Married">Married</option>
+                  </select>
+                  {errors.maritalStatus && (
+                    <p className="text-red-500 text-sm">
+                      {errors.maritalStatus.message}
+                    </p>
+                  )}
+                </div>
+              )}
 
               {/* Coming With */}
               <div>
