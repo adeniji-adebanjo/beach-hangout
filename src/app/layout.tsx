@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Courgette, Inter } from "next/font/google";
 import "./globals.css";
+import ScrollButton from "@/components/ScrollToTop";
 
 const courgette = Courgette({
   variable: "--font-courgette",
@@ -27,6 +28,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${courgette.variable} ${inter.variable} antialiased`}>
         {children}
+        <ScrollButton />
       </body>
     </html>
   );
