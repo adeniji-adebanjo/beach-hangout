@@ -20,7 +20,7 @@ const Hero = () => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.8 }}
-        className="mt-4 text-xl md:text-2xl text-[#ed7814]"
+        className="mt-4 text-xl md:text-2xl text-white"
       >
         Join us for fun, games & unforgettable vibes!
       </motion.p>
