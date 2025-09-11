@@ -74,7 +74,7 @@ const BeachWearTabs = () => {
           <button
             key={category.title}
             onClick={() => setActiveTab(category.title)}
-            className={`px-6 py-2 rounded-full font-medium transition-colors ${
+            className={`px-6 py-2 rounded-2xl font-medium transition-colors ${
               activeTab === category.title
                 ? "bg-yellow-400 text-white shadow-md"
                 : "bg-white text-gray-800 border border-gray-300 hover:bg-yellow-100"
