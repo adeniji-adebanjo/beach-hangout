@@ -162,64 +162,51 @@ const Registration = () => {
               </div>
 
               {/* Email above Phone on mobile, side-by-side on larger screens */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="flex-1 order-2 sm:order-1">
-                  <label className="block font-normal text-[#d23915]">
-                    Phone Number *
-                  </label>
-                  <Controller
-                    name="phone"
-                    control={control}
-                    rules={{
-                      required: "Phone number is required",
-                      minLength: {
-                        value: 10,
-                        message: "Phone number must be at least 10 digits",
-                      },
-                    }}
-                    render={({ field }) => (
-                      <PhoneInput
-                        {...field}
-                        country="ng"
-                        placeholder="+234 ..."
-                        inputClass="w-full border border-gray-300 rounded px-3 py-2 
-                        text-[#000000] placeholder:text-gray-400
-                        focus:border-[#ed7814] focus:ring-0"
-                        containerClass="w-full"
-                      />
-                    )}
-                  />
-                  {errors.phone && (
-                    <p className="text-red-500 text-sm">
-                      {errors.phone.message}
-                    </p>
-                  )}
-                </div>
-                {/* <div className="flex-1 order-1 sm:order-2">
-                  <label className="block font-normal text-[#d23915]">
-                    Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    placeholder="e.g james@example.com"
-                    className="mt-1 w-full border border-gray-300 rounded px-3 py-2 
-                   text-[#000000] placeholder:text-gray-400
-                   focus:border-[#ed7814] focus:ring-0"
-                    {...register("email", {
-                      required: "Email address is required",
-                      pattern: {
-                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                        message: "Enter a valid email address",
-                      },
-                    })}
-                  />
-                  {errors.email && (
-                    <p className="text-red-500 text-sm">
-                      {errors.email.message}
-                    </p>
-                  )}
-                </div> */}
-              </div>
+              <Controller
+                name="phone"
+                control={control}
+                rules={{
+                  required: "Phone number is required",
+                  validate: (value) => {
+                    if (!value) return "Phone number is required";
+                    const phoneWithoutZero = value.startsWith("0")
+                      ? value.slice(1)
+                      : value;
+                    if (phoneWithoutZero.length < 10) {
+                      return "Phone number must be at least 10 digits";
+                    }
+                    if (phoneWithoutZero.length > 10) {
+                      return "Phone number must not exceed 11 digits (including leading zero)";
+                    }
+                    return true;
+                  },
+                }}
+                render={({ field }) => {
+                  const fieldValue = field.value || ""; // default to empty string
+                  return (
+                    <PhoneInput
+                      {...field}
+                      country="ng"
+                      placeholder="+234 ..."
+                      inputClass="w-full border border-gray-300 rounded px-3 py-2 
+          text-[#000000] placeholder:text-gray-400
+          focus:border-[#ed7814] focus:ring-0"
+                      containerClass="w-full"
+                      onChange={(value) => {
+                        const formattedValue = value.startsWith("0")
+                          ? value.slice(1)
+                          : value;
+                        field.onChange(formattedValue);
+                      }}
+                      value={
+                        fieldValue.startsWith("0")
+                          ? `0${fieldValue}`
+                          : fieldValue
+                      }
+                    />
+                  );
+                }}
+              />
 
               {/* Category */}
               <div>
@@ -228,8 +215,8 @@ const Registration = () => {
                 </label>
                 <select
                   className="mt-1 w-full border border-gray-300 rounded px-3 py-2 
-                 text-[#000000] placeholder:text-gray-400
-                 focus:border-[#ed7814] focus:ring-0"
+      text-[#000000] placeholder:text-gray-400
+      focus:border-[#ed7814] focus:ring-0"
                   defaultValue=""
                   {...register("category", {
                     required: "Please select a category",
@@ -248,32 +235,34 @@ const Registration = () => {
                 )}
               </div>
 
-              {/* Marital Status */}
-              <div>
-                <label className="block font-normal text-[#d23915]">
-                  Are you single or married? *
-                </label>
-                <select
-                  className="mt-1 w-full border border-gray-300 rounded px-3 py-2 
-                 text-[#000000] placeholder:text-gray-400
-                 focus:border-[#ed7814] focus:ring-0"
-                  defaultValue=""
-                  {...register("maritalStatus", {
-                    required: "Please select your marital status",
-                  })}
-                >
-                  <option value="" disabled>
-                    Select
-                  </option>
-                  <option value="Single">Single</option>
-                  <option value="Married">Married</option>
-                </select>
-                {errors.maritalStatus && (
-                  <p className="text-red-500 text-sm">
-                    {errors.maritalStatus.message}
-                  </p>
-                )}
-              </div>
+              {/* Marital Status - Display only if category is "Adult" */}
+              {watch("category") === "Adult" && (
+                <div>
+                  <label className="block font-normal text-[#d23915]">
+                    Are you single or married? *
+                  </label>
+                  <select
+                    className="mt-1 w-full border border-gray-300 rounded px-3 py-2 
+        text-[#000000] placeholder:text-gray-400
+        focus:border-[#ed7814] focus:ring-0"
+                    defaultValue=""
+                    {...register("maritalStatus", {
+                      required: "Please select your marital status",
+                    })}
+                  >
+                    <option value="" disabled>
+                      Select
+                    </option>
+                    <option value="Single">Single</option>
+                    <option value="Married">Married</option>
+                  </select>
+                  {errors.maritalStatus && (
+                    <p className="text-red-500 text-sm">
+                      {errors.maritalStatus.message}
+                    </p>
+                  )}
+                </div>
+              )}
 
               {/* Coming With */}
               <div>
