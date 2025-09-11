@@ -106,7 +106,7 @@ const Registration = () => {
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-lg max-w-2xl w-full relative p-6 overflow-y-auto max-h-[90vh]">
             <button
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl"
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl cursor-pointer"
               onClick={() => setOpen(false)}
               aria-label="Close"
             >
@@ -195,7 +195,7 @@ const Registration = () => {
                     </p>
                   )}
                 </div>
-                <div className="flex-1 order-1 sm:order-2">
+                {/* <div className="flex-1 order-1 sm:order-2">
                   <label className="block font-normal text-[#d23915]">
                     Email Address *
                   </label>
@@ -218,7 +218,7 @@ const Registration = () => {
                       {errors.email.message}
                     </p>
                   )}
-                </div>
+                </div> */}
               </div>
 
               {/* Category */}
@@ -310,10 +310,12 @@ const Registration = () => {
 
               {/* Guest Names */}
               {(comingWithValue === "Yes" ||
-                comingWithValue === "Coming with a Guest") && (
+                comingWithValue === "Coming with a Guest" ||
+                comingWithValue === "Coming with my spouse") && (
                 <div>
                   <label className="block font-normal text-[#d23915]">
-                    Please share their full name(s)
+                    Please share their full name(s). Kindly separate multiple
+                    names with commas *
                   </label>
                   <input
                     type="text"
@@ -327,15 +329,17 @@ const Registration = () => {
               )}
 
               {/* Paying For Guest */}
-              {comingWithValue === "Yes" && (
+              {(comingWithValue === "Yes" ||
+                comingWithValue === "Coming with my spouse" ||
+                comingWithValue === "Coming with a Guest") && (
                 <div>
                   <label className="block font-normal text-[#d23915]">
                     Would you be the one paying for them?
                   </label>
                   <select
                     className="mt-1 w-full border border-gray-300 rounded px-3 py-2 
-                   text-[#000000] placeholder:text-gray-400
-                   focus:border-[#ed7814] focus:ring-0"
+        text-[#000000] placeholder:text-gray-400
+        focus:border-[#ed7814] focus:ring-0"
                     defaultValue=""
                     {...register("payingForGuest")}
                   >
