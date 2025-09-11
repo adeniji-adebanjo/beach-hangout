@@ -13,6 +13,10 @@ const images = [
   "/memories/memory4.png",
   "/memories/memory5.png",
   "/memories/memory6.png",
+  "/memories/memory7.png",
+  "/memories/memory8.jpg",
+  "/memories/memory9.jpg",
+  "/memories/memory10.png",
 ];
 
 const Memories = () => {
