@@ -13,19 +13,19 @@ const wearCategories: WearCategory[] = [
   {
     title: "Brothers",
     images: [
-      "/wear/brother1.webp",
-      "/wear/brother1.webp",
-      "/wear/brother1.webp",
-      "/wear/brother1.webp",
+      "/wear/brothers1.jpg",
+      "/wear/brothers2.jpg",
+      "/wear/brothers3.jpg",
+      "/wear/brothers4.webp",
     ],
   },
   {
     title: "Sisters",
     images: [
-      "/wear/sister1.webp",
-      "/wear/sister2.webp",
-      "/wear/sister1.webp",
-      "/wear/sister2.webp",
+      "/wear/sisters1.webp",
+      "/wear/sisters2.jpg",
+      "/wear/sisters3.jpg",
+      "/wear/sisters2.jpg",
     ],
   },
   {
