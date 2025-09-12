@@ -33,8 +33,8 @@ const wearCategories: WearCategory[] = [
     images: [
       "/wear/couple1.jpg",
       "/wear/couple2.jpg",
-      "/wear/couple1.jpg",
-      "/wear/couple2.jpg",
+      "/wear/couple3.jpg",
+      "/wear/couple4.jpg",
     ],
   },
   {
