@@ -133,7 +133,7 @@ const Registration = () => {
               {/* First Name & Last Name side-by-side */}
               <div className="flex gap-4">
                 <div className="flex-1">
-                  <label className="block font-normal text-[#d23915]">
+                  <label className="block font-normal text-black">
                     First Name *
                   </label>
                   <input
@@ -153,7 +153,7 @@ const Registration = () => {
                   )}
                 </div>
                 <div className="flex-1">
-                  <label className="block font-normal text-[#d23915]">
+                  <label className="block font-normal text-black">
                     Last Name *
                   </label>
                   <input
@@ -177,7 +177,7 @@ const Registration = () => {
               {/* Email above Phone on mobile, side-by-side on larger screens */}
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1 order-2 sm:order-1">
-                  <label className="block font-normal text-[#d23915]">
+                  <label className="block font-normal text-black">
                     Phone Number *
                   </label>
                   <Controller
@@ -209,7 +209,7 @@ const Registration = () => {
                   )}
                 </div>
                 {/* <div className="flex-1 order-1 sm:order-2">
-                  <label className="block font-normal text-[#d23915]">
+                  <label className="block font-normal text-black">
                     Email Address *
                   </label>
                   <input
@@ -236,7 +236,7 @@ const Registration = () => {
 
               {/* Category */}
               <div>
-                <label className="block font-normal text-[#d23915]">
+                <label className="block font-normal text-black">
                   Which category do you fall under? *
                 </label>
                 <select
@@ -264,7 +264,7 @@ const Registration = () => {
               {/* Marital Status - Display only if category is "Adult" */}
               {watch("category") === "Adult" && (
                 <div>
-                  <label className="block font-normal text-[#d23915]">
+                  <label className="block font-normal text-black">
                     Are you single or married? *
                   </label>
                   <select
@@ -292,7 +292,7 @@ const Registration = () => {
 
               {/* Coming With */}
               <div>
-                <label className="block font-normal text-[#d23915]">
+                <label className="block font-normal text-black">
                   Would you be coming with child(ren) or with someone? *
                 </label>
                 <select
@@ -328,7 +328,7 @@ const Registration = () => {
                 comingWithValue === "Coming with a Guest" ||
                 comingWithValue === "Coming with my spouse") && (
                 <div>
-                  <label className="block font-normal text-[#d23915]">
+                  <label className="block font-normal text-black">
                     Please share their full name(s). Kindly separate multiple
                     names with commas *
                   </label>
@@ -348,7 +348,7 @@ const Registration = () => {
                 comingWithValue === "Coming with my spouse" ||
                 comingWithValue === "Coming with a Guest") && (
                 <div>
-                  <label className="block font-normal text-[#d23915]">
+                  <label className="block font-normal text-black">
                     Would you be the one paying for them?
                   </label>
                   <select
