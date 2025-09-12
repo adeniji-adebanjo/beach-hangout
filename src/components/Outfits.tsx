@@ -40,10 +40,10 @@ const wearCategories: WearCategory[] = [
   {
     title: "Children",
     images: [
-      "/wear/child1.jpg",
-      "/wear/child2.jpg",
-      "/wear/child3.jpg",
-      "/wear/child4.jpg",
+      "/wear/child1.JPG",
+      "/wear/child2.JPG",
+      "/wear/child3.JPG",
+      "/wear/child4.JPG",
     ],
   },
 ];
