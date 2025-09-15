@@ -10,6 +10,7 @@
   --secondary-color: #ed7814;
   --accent-color: #e75912;
   --neutral-color: #000000;
+  --font-headline: var(--font-courgette);
 }
 
 @media (prefers-color-scheme: dark) {

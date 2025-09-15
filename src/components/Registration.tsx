@@ -74,7 +74,7 @@ const Registration = () => {
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-4xl font-bold mb-4"
+        className="text-4xl font-bold mb-4 font-headline"
       >
         Family Beach Hangout 2025
       </motion.h2>

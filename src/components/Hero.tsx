@@ -12,7 +12,7 @@ const Hero = () => {
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="text-5xl md:text-7xl font-bold drop-shadow-lg text-[#b72318]"
+        className="text-5xl md:text-7xl font-bold drop-shadow-lg text-[#b72318] font-headline"
       >
         Beach Hangout 2025
       </motion.h1>
