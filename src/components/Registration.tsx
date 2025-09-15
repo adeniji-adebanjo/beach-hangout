@@ -195,9 +195,9 @@ const Registration = () => {
                         {...field}
                         country="ng"
                         placeholder="+234 ..."
-                        inputClass="w-full border border-gray-300 rounded px-3 py-2 
-                        text-[#000000] placeholder:text-gray-400
-                        focus:border-[#ed7814] focus:ring-0"
+                        inputClass="w-full h-10 border border-gray-300 rounded px-3 py-2 
+        text-[#000000] placeholder:text-gray-400
+        focus:border-[#ed7814] focus:ring-0"
                         containerClass="w-full"
                       />
                     )}
