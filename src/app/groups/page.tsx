@@ -34,8 +34,6 @@ export default function GroupsPage() {
         const res = await fetch("/api/attendees");
         const result = await res.json();
 
-        console.log("API Response:", result); // Debugging log
-
         if (result.success && Array.isArray(result.data)) {
           setPeople(result.data);
         } else {
@@ -58,21 +56,30 @@ export default function GroupsPage() {
   return (
     <>
       <Navbar />
-      <div className="max-w-4xl mx-auto my-30 py-8">
-        <h1 className="text-2xl text-center font-bold text-gray-800 mb-6">
-          View your team members here!
-        </h1>
+      <div
+        className="relative bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/groups-bg.gif')" }}
+      >
+        {/* Overlay for opacity */}
+        <div className="absolute inset-0 bg-black/50"></div>
 
-        <GroupTabs
-          groups={GROUPS}
-          onSelect={(groupName) => setActiveGroup(groupName)}
-        />
+        {/* Content */}
+        <div className="relative max-w-4xl mx-auto my-30 py-8">
+          <h1 className="text-2xl text-center font-bold text-gray-100 mb-6">
+            View your team members here!
+          </h1>
 
-        {error ? (
-          <div className="text-red-500 text-center py-4">{error}</div>
-        ) : (
-          <GroupTable members={groupMembers} />
-        )}
+          <GroupTabs
+            groups={GROUPS}
+            onSelect={(groupName) => setActiveGroup(groupName)}
+          />
+
+          {error ? (
+            <div className="text-red-500 text-center py-4">{error}</div>
+          ) : (
+            <GroupTable members={groupMembers} />
+          )}
+        </div>
       </div>
       <Footer />
     </>
