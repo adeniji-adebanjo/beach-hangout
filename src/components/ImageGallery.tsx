@@ -42,14 +42,15 @@ const DragDropGallery = () => {
     }
   }, []);
 
-  const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(false);
-    const files = Array.from(e.dataTransfer.files).filter((f) =>
-      f.type.startsWith("image/")
-    );
-    files.forEach(uploadFile);
-  };
+  // Drag & Drop Handlers (Disabled for now)
+  // const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+  //   e.preventDefault();
+  //   setIsDragging(false);
+  //   const files = Array.from(e.dataTransfer.files).filter((f) =>
+  //     f.type.startsWith("image/")
+  //   );
+  //   files.forEach(uploadFile);
+  // };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -88,7 +89,7 @@ const DragDropGallery = () => {
           setIsDragging(true);
         }}
         onDragLeave={() => setIsDragging(false)}
-        onDrop={handleDrop}
+        // onDrop={handleDrop} // Disabled for now
         className={`flex justify-center items-center border-4 border-dashed rounded-lg h-40 mb-8 mx-6 transition-colors ${
           isDragging
             ? "border-yellow-400 bg-yellow-50"
