@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { FaArrowDown } from "react-icons/fa";
+import { FaArrowDown, FaExclamationTriangle } from "react-icons/fa";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const IMAGES_PER_PAGE = 8;
@@ -76,6 +76,10 @@ const DragDropGallery = () => {
       </motion.h2>
       <p className="text-lg text-center text-gray-700 mb-8">
         Share your moments with other brethren!
+      </p>
+      <p className="text-md text-center text-red-700 mb-8 flex items-center justify-center gap-2">
+        <FaExclamationTriangle className="text-red-700" /> {/* Caution Icon */}
+        Feature is disabled till the day for the hangout...
       </p>
       {/* Drag & Drop */}
       <div
