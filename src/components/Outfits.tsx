@@ -25,7 +25,7 @@ const wearCategories: WearCategory[] = [
       "/wear/sisters1.webp",
       "/wear/sisters2.jpg",
       "/wear/sisters3.jpg",
-      "/wear/sisters2.jpg",
+      "/wear/sisters4.jpg",
     ],
   },
   {
