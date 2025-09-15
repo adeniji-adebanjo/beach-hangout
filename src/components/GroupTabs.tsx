@@ -1,33 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState, ReactElement } from "react";
+
+interface Group {
+  name: string;
+  icon: ReactElement;
+}
 
 interface GroupTabsProps {
-  groups: string[];
+  groups: Group[];
   onSelect: (group: string) => void;
 }
 
 export default function GroupTabs({ groups, onSelect }: GroupTabsProps) {
-  const [active, setActive] = useState(groups[0]);
+  const [active, setActive] = useState(groups[0].name);
 
-  const handleClick = (group: string) => {
-    setActive(group);
-    onSelect(group);
+  const handleClick = (groupName: string) => {
+    setActive(groupName);
+    onSelect(groupName);
   };
 
   return (
-    <div className="flex gap-4 border-b border-gray-200 mb-4">
+    <div className="flex justify-center gap-4 mb-6 flex-wrap">
       {groups.map((group) => (
         <button
-          key={group}
-          onClick={() => handleClick(group)}
-          className={`px-4 py-2 font-medium transition ${
-            active === group
-              ? "text-yellow-600 border-b-2 border-yellow-600"
-              : "text-gray-500 hover:text-yellow-600"
+          key={group.name}
+          onClick={() => handleClick(group.name)}
+          className={`flex flex-col items-center gap-1 px-4 py-2 rounded-lg font-semibold transition cursor-pointer ${
+            active === group.name
+              ? "bg-[#d23915] text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
           }`}
         >
-          {group}
+          <div className="text-2xl">{group.icon}</div>
+          <span className="text-sm sm:text-base">{group.name}</span>
         </button>
       ))}
     </div>

@@ -1,41 +1,80 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import GroupTabs from "@/components/GroupTabs";
 import GroupTable from "@/components/GroupTable";
+import { FaSmile, FaPeace, FaHeart, FaStar, FaLeaf } from "react-icons/fa";
 
 interface Person {
-  firstName: string;
-  lastName: string;
-  group?: string;
+  first_name: string;
+  last_name: string;
+  team?: string;
 }
 
-const GROUPS = ["Team Joy", "Team Peace", "Team Love", "Team Grace"];
+const GROUPS = [
+  { name: "Team Joy", icon: <FaSmile className="text-yellow-500" /> },
+  { name: "Team Peace", icon: <FaPeace className="text-blue-500" /> },
+  { name: "Team Love", icon: <FaHeart className="text-red-500" /> },
+  { name: "Team Grace", icon: <FaStar className="text-purple-500" /> },
+  { name: "Team Hope", icon: <FaLeaf className="text-green-500" /> },
+];
 
 export default function GroupsPage() {
   const [people, setPeople] = useState<Person[]>([]);
-  const [activeGroup, setActiveGroup] = useState(GROUPS[0]);
+  const [activeGroup, setActiveGroup] = useState(GROUPS[0].name);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("/api/attendees");
-      const data: Person[] = await res.json();
-      setPeople(data);
+      setLoading(true);
+      try {
+        const res = await fetch("/api/attendees");
+        const result = await res.json();
+
+        console.log("API Response:", result); // Debugging log
+
+        if (result.success && Array.isArray(result.data)) {
+          setPeople(result.data);
+        } else {
+          console.error("Unexpected API response:", result);
+          setError("Failed to load teams. Please try again later.");
+        }
+      } catch (error) {
+        console.error("Failed to fetch attendees:", error);
+        setError("Failed to load teams. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
     };
+
     fetchData();
   }, []);
 
-  const groupMembers = people.filter((p) => p.group === activeGroup);
+  const groupMembers = people.filter((p) => p.team === activeGroup);
 
   return (
-    <div className="max-w-4xl mx-auto py-8">
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">
-        Attendees Group Assignment
-      </h1>
+    <>
+      <Navbar />
+      <div className="max-w-4xl mx-auto my-30 py-8">
+        <h1 className="text-2xl text-center font-bold text-gray-800 mb-6">
+          View your team members here!
+        </h1>
 
-      <GroupTabs groups={GROUPS} onSelect={setActiveGroup} />
+        <GroupTabs
+          groups={GROUPS}
+          onSelect={(groupName) => setActiveGroup(groupName)}
+        />
 
-      <GroupTable members={groupMembers} />
-    </div>
+        {error ? (
+          <div className="text-red-500 text-center py-4">{error}</div>
+        ) : (
+          <GroupTable members={groupMembers} />
+        )}
+      </div>
+      <Footer />
+    </>
   );
 }

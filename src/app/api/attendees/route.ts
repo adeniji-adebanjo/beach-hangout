@@ -1,12 +1,11 @@
 import { google } from "googleapis";
-import { NextResponse } from "next/server";
 
 const SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
 const spreadsheetId = process.env.GOOGLE_SHEET_ID as string;
 
 const auth = new google.auth.GoogleAuth({
   credentials: {
-    client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+    client_email: process.env.GOOGLE_CLIENT_EMAIL,
     private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
   },
   scopes: SCOPES,
@@ -14,64 +13,38 @@ const auth = new google.auth.GoogleAuth({
 
 const sheets = google.sheets({ version: "v4", auth });
 
-const GROUPS = ["Team Joy", "Team Peace", "Team Love", "Team Grace"];
-
 export async function GET() {
   try {
-    // Fetch all rows
+    // Fetch all rows from Google Sheets
     const res = await sheets.spreadsheets.values.get({
       spreadsheetId,
-      range: "paid_attendees!A:D", // first_name, last_name, status, team
+      range: "paid_attendees!A:D", // Adjust the range to match your sheet
     });
 
-    const rows = res.data.values || [];
+    const rows = res.data.values;
 
-    // Extract header and data
-    const [header, ...attendees] = rows;
-
-    const paidAttendees = attendees.filter(
-      (row) => row[2]?.toLowerCase() === "paid"
-    );
-
-    // Assign teams only if not already assigned
-    const updatedRows: string[][] = [];
-    const assigned = paidAttendees.map((row, idx) => {
-      let team = row[3]; // Existing team if already assigned
-
-      if (!team) {
-        team = GROUPS[idx % GROUPS.length]; // round-robin assign
-        updatedRows.push([`${row[0]}`, `${row[1]}`, row[2], team]);
-      }
-
-      return {
-        firstName: row[0],
-        lastName: row[1],
-        status: row[2],
-        team,
-      };
-    });
-
-    // Persist new assignments if any
-    if (updatedRows.length > 0) {
-      await sheets.spreadsheets.values.update({
-        spreadsheetId,
-        range: `paid_attendees!A2:D${attendees.length + 1}`,
-        valueInputOption: "RAW",
-        requestBody: {
-          values: attendees.map((row, i) => {
-            const found = updatedRows.find(
-              (u) => u[0] === row[0] && u[1] === row[1]
-            );
-            return found || row;
-          }),
-        },
-      });
+    if (!rows || rows.length === 0) {
+      return new Response(
+        JSON.stringify({ success: false, error: "No data found" }),
+        { status: 404 }
+      );
     }
 
-    return NextResponse.json({ success: true, data: assigned });
+    // Map rows to an array of objects
+    const data = rows.slice(1).map((row) => ({
+      first_name: row[0] || "",
+      last_name: row[1] || "",
+      team: row[3] || "",
+    }));
+
+    return new Response(JSON.stringify({ success: true, data }), {
+      status: 200,
+    });
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : String(error);
-    console.error("Google Sheets error:", msg);
-    return NextResponse.json({ success: false, error: msg }, { status: 500 });
+    console.error("Error fetching data from Google Sheets:", error);
+    return new Response(
+      JSON.stringify({ success: false, error: "Failed to fetch data" }),
+      { status: 500 }
+    );
   }
 }
