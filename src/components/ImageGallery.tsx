@@ -79,7 +79,7 @@ const DragDropGallery = () => {
         Share your moments with other brethren!
       </p>
       <p className="text-md text-center text-red-700 mb-8 flex items-center justify-center gap-2">
-        <FaExclamationTriangle className="text-red-700" /> {/* Caution Icon */}
+        <FaExclamationTriangle className="text-red-700" />
         Feature is disabled till the day for the hangout...
       </p>
       {/* Drag & Drop */}
