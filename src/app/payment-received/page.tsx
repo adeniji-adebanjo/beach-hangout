@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { FaCheckCircle } from "react-icons/fa";
@@ -21,12 +22,12 @@ export default function PaymentReceivedPage() {
             Thank you for your payment. Your registration has been successfully
             acknowledged. We look forward to seeing you at the Beach Hangout!
           </p>
-          <a
+          <Link
             href="/"
             className="inline-block bg-[#d23915] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#b72318] transition"
           >
             Go Back to Home
-          </a>
+          </Link>
         </div>
       </main>
 

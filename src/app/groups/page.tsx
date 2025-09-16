@@ -5,7 +5,14 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GroupTabs from "@/components/GroupTabs";
 import GroupTable from "@/components/GroupTable";
-import { FaSmile, FaPeace, FaHeart, FaStar, FaLeaf } from "react-icons/fa";
+import {
+  FaSmile,
+  FaPeace,
+  FaHeart,
+  FaStar,
+  FaLeaf,
+  FaSpinner,
+} from "react-icons/fa"; // Import spinner icon
 
 interface Person {
   first_name: string;
@@ -69,15 +76,22 @@ export default function GroupsPage() {
             View your team members here!
           </h1>
 
-          <GroupTabs
-            groups={GROUPS}
-            onSelect={(groupName) => setActiveGroup(groupName)}
-          />
-
-          {error ? (
+          {loading ? (
+            <div className="flex flex-col items-center justify-center text-gray-100 py-4">
+              <FaSpinner className="animate-spin text-4xl mb-2" />{" "}
+              {/* Spinner Icon */}
+              Loading...
+            </div>
+          ) : error ? (
             <div className="text-red-500 text-center py-4">{error}</div>
           ) : (
-            <GroupTable members={groupMembers} />
+            <>
+              <GroupTabs
+                groups={GROUPS}
+                onSelect={(groupName) => setActiveGroup(groupName)}
+              />
+              <GroupTable members={groupMembers} />
+            </>
           )}
         </div>
       </div>
