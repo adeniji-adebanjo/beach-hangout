@@ -23,7 +23,7 @@ export default function PaymentReceivedPage() {
             Payment Received!
           </h1>
           <p className="text-gray-600 mb-6">
-            Thank you for your payment. Your registration has been successfully
+            Thank you for your payment. Your payment has been successfully
             acknowledged. We look forward to seeing you at the Beach Hangout!
           </p>
           <Link

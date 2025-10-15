@@ -42,7 +42,7 @@ const Hero = () => {
           className="px-6 py-3 bg-[#ed7814] cursor-pointer text-white font-semibold rounded-2xl shadow-lg hover:bg-[#b72318] text-center"
           onClick={() => setShowPaymentProof(true)}
         >
-          Upload payment proof
+          Upload Proof of Payment
         </motion.button>
       </div>
       {showPaymentProof && (

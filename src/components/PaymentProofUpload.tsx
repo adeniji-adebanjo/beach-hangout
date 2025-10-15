@@ -54,8 +54,13 @@ export default function PaymentProofUpload() {
       )}
 
       <h2 className="text-xl font-semibold mb-4 text-center text-gray-800">
-        Upload Payment Proof
+        Upload Proof of Payment
       </h2>
+      <p className="text-[#d23915] text-sm text-center my-5 animate-blink">
+        Please upload a clear image of your payment receipt. <br /> Also, ensure
+        you use the information (First Name, Last Name, & Phone Number) you used
+        during registration; else your upload may not be processed correctly.
+      </p>
 
       <form onSubmit={handleSubmit} className="space-y-4 text-left">
         {/* First + Last Name */}
@@ -130,6 +135,7 @@ export default function PaymentProofUpload() {
             </option>
             <option value="Bank Transfer">Bank Transfer</option>
             <option value="Cash">Cash</option>
+            <option value="USSD">USSD</option>
             <option value="POS">POS</option>
           </select>
         </div>
