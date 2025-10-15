@@ -73,10 +73,11 @@ const DragDropGallery = () => {
         transition={{ duration: 0.6 }}
         className="text-4xl md:text-5xl font-bold text-center mb-2 text-gray-900"
       >
-        User Gallery
+        Upload Your Moments
       </motion.h2>
       <p className="text-lg text-center text-gray-700 mb-8">
-        Share your moments with other brethren!
+        Upload and share your moments with other brethren; let's create memories
+        together!
       </p>
       <p className="text-md text-center text-red-700 mb-8 flex items-center justify-center gap-2">
         <FaExclamationTriangle className="text-red-700" />
