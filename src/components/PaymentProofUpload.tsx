@@ -23,8 +23,15 @@ export default function PaymentProofUpload() {
 
       const data = await res.json();
 
+      // ✅ Handle redirect cases correctly
       if (data.success && data.redirect) {
         router.push(data.redirect);
+      } else if (data.redirect && !data.success) {
+        setMessage("User not registered. Redirecting...");
+        // delay a bit so user sees the message
+        setTimeout(() => {
+          router.push(data.redirect);
+        }, 1200);
       } else {
         setMessage(data.message || "Upload failed.");
       }
@@ -37,12 +44,21 @@ export default function PaymentProofUpload() {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white shadow-md rounded-xl p-6 mt-10">
+    <div className="relative max-w-md mx-auto bg-white shadow-md rounded-xl p-6 mt-10">
+      {/* 🔄 Overlay Spinner */}
+      {loading && (
+        <div className="absolute inset-0 bg-white/70 flex flex-col items-center justify-center rounded-xl z-10">
+          <div className="w-10 h-10 border-4 border-[#d23915] border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-gray-700 mt-3">Uploading...</p>
+        </div>
+      )}
+
       <h2 className="text-xl font-semibold mb-4 text-center text-gray-800">
         Upload Payment Proof
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-4 text-left">
+        {/* First + Last Name */}
         <div className="flex gap-2">
           <div className="w-1/2">
             <label
@@ -77,6 +93,7 @@ export default function PaymentProofUpload() {
           </div>
         </div>
 
+        {/* Phone */}
         <div>
           <label
             htmlFor="phone"
@@ -93,6 +110,7 @@ export default function PaymentProofUpload() {
           />
         </div>
 
+        {/* Payment Method */}
         <div>
           <label
             htmlFor="method"
@@ -115,6 +133,7 @@ export default function PaymentProofUpload() {
           </select>
         </div>
 
+        {/* File Upload */}
         <div>
           <label
             htmlFor="file"
@@ -137,7 +156,7 @@ export default function PaymentProofUpload() {
           disabled={loading}
           className="w-full bg-[#d23915] text-white cursor-pointer py-2 px-4 rounded-lg hover:bg-[#b72318] transition"
         >
-          {loading ? "Uploading..." : "Submit Proof"}
+          Submit Proof
         </button>
       </form>
 

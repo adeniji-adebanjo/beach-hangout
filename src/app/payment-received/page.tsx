@@ -12,9 +12,12 @@ export default function PaymentReceivedPage() {
       <Navbar />
 
       {/* Main Content */}
-      <main className="relative flex flex-col items-center justify-center min-h-screen text-center px-4">
-        <div className="absolute inset-0 bg-[url('/payment-bg.jpg')] bg-cover bg-center bg-no-repeat opacity-15" />
-        <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
+      <main className="relative flex flex-col items-center justify-center h-screen text-center px-4">
+        {/* Background Overlay */}
+        <div className="absolute inset-0 bg-[url('/payment-bg.jpg')] bg-cover bg-center bg-no-repeat opacity-15 z-0" />
+
+        {/* Content */}
+        <div className="relative bg-white shadow-lg rounded-lg p-8 max-w-md w-full z-10">
           <FaCheckCircle className="text-green-500 text-6xl mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-gray-800 mb-2">
             Payment Received!
