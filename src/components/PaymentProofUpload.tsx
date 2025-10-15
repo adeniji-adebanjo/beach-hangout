@@ -57,9 +57,9 @@ export default function PaymentProofUpload() {
         Upload Proof of Payment
       </h2>
       <p className="text-[#d23915] text-sm text-center my-5 animate-blink">
-        Please upload a clear image of your payment receipt. <br /> Also, ensure
-        you use the information (First Name, Last Name, & Phone Number) you used
-        during registration; else your upload may not be processed correctly.
+        Please upload a clear payment receipt image, ensuring the information
+        (First Name, Last Name, & Phone Number) matches your registration
+        details.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4 text-left">
