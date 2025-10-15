@@ -122,6 +122,7 @@ export default function PaymentProofUpload() {
             id="method"
             name="method"
             required
+            defaultValue=""
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-black bg-white"
           >
             <option value="" disabled>
