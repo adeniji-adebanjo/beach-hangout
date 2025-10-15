@@ -47,7 +47,7 @@ const Hero = () => {
       </div>
       {showPaymentProof && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 p-4">
-          <div className="relative w-full max-w-lg">
+          <div className="relative w-full max-w-lg mt-15">
             <button
               className="absolute top-2 right-2 text-2xl text-gray-700 cursor-pointer hover:text-red-600 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow"
               onClick={() => setShowPaymentProof(false)}
