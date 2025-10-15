@@ -19,12 +19,12 @@ const Navbar = () => {
   }, []);
 
   const navItems = [
-    { name: "Home", href: "#hero" },
-    { name: "Register", href: "#register" },
-    { name: "Memories", href: "#memories" },
-    { name: "What to Expect", href: "#what-to-expect" },
-    { name: "Beach Outfits", href: "#outfits" },
-    { name: "FAQs", href: "#faqs" },
+    { name: "Home", href: "/" },
+    { name: "Register", href: "/#register" },
+    { name: "Memories", href: "/#memories" },
+    { name: "What to Expect", href: "/#what-to-expect" },
+    { name: "Beach Outfits", href: "/#outfits" },
+    { name: "FAQs", href: "/#faqs" },
   ];
 
   return (

@@ -1,4 +1,5 @@
 import { google } from "googleapis";
+import { v2 as cloudinary } from "cloudinary";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -8,15 +9,16 @@ export async function POST(req: Request) {
     const lastName = formData.get("lastName")?.toString().trim();
     const phone = formData.get("phone")?.toString().trim();
     const method = formData.get("method")?.toString().trim();
+    const file = formData.get("file") as File | null;
 
-    if (!firstName || !lastName || !phone || !method) {
+    if (!firstName || !lastName || !phone || !method || !file) {
       return NextResponse.json({
         success: false,
         message: "All fields are required.",
       });
     }
 
-    // ✅ Google Auth setup
+    // ✅ Setup Google Auth
     const auth = new google.auth.GoogleAuth({
       credentials: {
         type: process.env.GOOGLE_TYPE,
@@ -30,15 +32,14 @@ export async function POST(req: Request) {
     const sheets = google.sheets({ version: "v4", auth });
     const sheetId = process.env.GOOGLE_SHEET_ID!;
 
-    // ✅ Step 1: Fetch registration data (skip header row)
+    // ✅ Step 1: Check registration from “Sheet1” (columns B:E)
     const regRes = await sheets.spreadsheets.values.get({
       spreadsheetId: sheetId,
-      range: "Sheet1!A2:D", // First Name | Last Name | Email | Phone
+      range: "Sheet1!B2:E", // First Name | Last Name | Email | Phone
     });
 
     const rows = regRes.data.values || [];
 
-    // Normalize phone (remove spaces, leading +234 or 0)
     const normalizePhone = (num: string) =>
       num.replace(/\s+/g, "").replace(/^(\+234|0)/, "");
 
@@ -46,6 +47,7 @@ export async function POST(req: Request) {
       const [fName, lName, , phoneNum] = row.map((v) =>
         v?.toString().trim().toLowerCase()
       );
+
       return (
         (fName === firstName.toLowerCase() &&
           lName === lastName.toLowerCase()) ||
@@ -56,12 +58,39 @@ export async function POST(req: Request) {
     if (!isRegistered) {
       return NextResponse.json({
         success: false,
-        message: "User not registered. Redirecting...",
+        message: "User not registered. Please register. Redirecting...",
         redirect: "/#register",
       });
     }
 
-    // ✅ Step 2: Append payment proof record
+    // ✅ Step 2: Cloudinary upload
+    cloudinary.config({
+      cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+      api_key: process.env.CLOUDINARY_API_KEY,
+      api_secret: process.env.CLOUDINARY_API_SECRET,
+    });
+
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    const uploadResult = await new Promise<{ secure_url: string }>(
+      (resolve, reject) => {
+        cloudinary.uploader
+          .upload_stream(
+            {
+              folder: "payment_proofs",
+              resource_type: "auto",
+            },
+            (error, result) => {
+              if (error) reject(error);
+              else resolve(result as { secure_url: string });
+            }
+          )
+          .end(buffer);
+      }
+    );
+
+    // ✅ Step 3: Append to “proof_of_payment” sheet
     await sheets.spreadsheets.values.append({
       spreadsheetId: sheetId,
       range: "proof_of_payment!A2",
@@ -72,13 +101,13 @@ export async function POST(req: Request) {
             new Date().toLocaleString(),
             `${firstName} ${lastName}`,
             method,
-            phone,
+            uploadResult.secure_url,
           ],
         ],
       },
     });
 
-    // ✅ Step 3: Return success and redirect
+    // ✅ Step 4: Return success response
     return NextResponse.json({
       success: true,
       message: "Payment proof submitted successfully.",
@@ -87,7 +116,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("Error submitting payment proof:", error);
     return NextResponse.json(
-      { success: false, message: "Internal Server Error" },
+      { success: false, message: (error as Error).message },
       { status: 500 }
     );
   }

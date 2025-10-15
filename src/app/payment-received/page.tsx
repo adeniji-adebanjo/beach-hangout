@@ -25,7 +25,7 @@ export default function PaymentReceivedPage() {
           </p>
           <Link
             href="/"
-            className="inline-block bg-[#d23915] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#b72318] transition"
+            className="inline-block bg-[#d23915] cursor-pointer text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#b72318] transition"
           >
             Go Back to Home
           </Link>
