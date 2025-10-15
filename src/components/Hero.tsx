@@ -1,11 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import PaymentProofUpload from "./PaymentProofUpload";
 
 const Hero = () => {
   const [showPaymentProof, setShowPaymentProof] = useState(false);
+
+  // Effect to disable/enable scrolling when the pop-up is active
+  useEffect(() => {
+    if (showPaymentProof) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    // Cleanup on component unmount or when `showPaymentProof` changes
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showPaymentProof]);
 
   return (
     <section
