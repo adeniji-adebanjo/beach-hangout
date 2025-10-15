@@ -18,7 +18,7 @@ export async function GET() {
     // Fetch all rows from Google Sheets
     const res = await sheets.spreadsheets.values.get({
       spreadsheetId,
-      range: "paid_attendees!A:D", // Adjust the range to match your sheet
+      range: "groups!A:D",
     });
 
     const rows = res.data.values;

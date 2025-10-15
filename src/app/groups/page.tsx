@@ -12,7 +12,7 @@ import {
   FaStar,
   FaLeaf,
   FaSpinner,
-} from "react-icons/fa"; // Import spinner icon
+} from "react-icons/fa";
 
 interface Person {
   first_name: string;
@@ -38,7 +38,7 @@ export default function GroupsPage() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await fetch("/api/attendees");
+        const res = await fetch("/api/groups");
         const result = await res.json();
 
         if (result.success && Array.isArray(result.data)) {
