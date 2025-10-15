@@ -133,10 +133,18 @@ export default function PaymentProofUpload() {
             <option value="" disabled className="text-black text-xs opacity-50">
               Select Payment Method
             </option>
-            <option value="Bank Transfer">Bank Transfer</option>
-            <option value="Cash">Cash</option>
-            <option value="USSD">USSD</option>
-            <option value="POS">POS</option>
+            <option value="Bank Transfer" className="text-black text-sm">
+              Bank Transfer
+            </option>
+            <option value="Cash" className="text-black text-sm">
+              Cash
+            </option>
+            <option value="USSD" className="text-black text-sm">
+              USSD
+            </option>
+            <option value="POS" className="text-black text-sm">
+              POS
+            </option>
           </select>
         </div>
 
