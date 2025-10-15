@@ -77,7 +77,7 @@ export default function PaymentProofUpload() {
               name="firstName"
               placeholder="Enter your first name"
               required
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-black placeholder:text-black placeholder:opacity-50"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-black placeholder:text-black placeholder:opacity-50 focus:outline-none focus:border-[#d23915]"
             />
           </div>
 
@@ -93,7 +93,7 @@ export default function PaymentProofUpload() {
               name="lastName"
               placeholder="Enter your last name"
               required
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-black placeholder:text-black placeholder:opacity-50"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-black placeholder:text-black placeholder:opacity-50 focus:outline-none focus:border-[#d23915]"
             />
           </div>
         </div>
@@ -111,7 +111,7 @@ export default function PaymentProofUpload() {
             name="phone"
             placeholder="Enter your phone number"
             required
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-black placeholder:text-black placeholder:opacity-50"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-black placeholder:text-black placeholder:opacity-50 focus:outline-none focus:border-[#d23915]"
           />
         </div>
 
@@ -128,9 +128,9 @@ export default function PaymentProofUpload() {
             name="method"
             required
             defaultValue=""
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-black bg-white"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-black bg-white opacity-50 focus:outline-none focus:border-[#d23915]"
           >
-            <option value="" disabled>
+            <option value="" disabled className="text-black opacity-50">
               Select Payment Method
             </option>
             <option value="Bank Transfer">Bank Transfer</option>
@@ -154,7 +154,7 @@ export default function PaymentProofUpload() {
             type="file"
             accept="image/*"
             required
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-black"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-black opacity-50 file:cursor-pointer file:opacity-50 file:hover:opacity-100 focus:outline-none focus:border-[#d23915]"
           />
         </div>
 
