@@ -1,7 +1,7 @@
 import { google } from "googleapis";
 
 const SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
-const PAID_SHEET_NAME = "paid_attendees";
+const PAID_SHEET_NAME = "groups";
 
 function getCredentials() {
   const client_email = process.env.GOOGLE_CLIENT_EMAIL;

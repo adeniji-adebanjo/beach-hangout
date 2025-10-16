@@ -6,12 +6,12 @@ import Footer from "@/components/Footer";
 import GroupTabs from "@/components/GroupTabs";
 import GroupTable from "@/components/GroupTable";
 import {
-  FaSmile,
-  FaPeace,
-  FaHeart,
-  FaStar,
-  FaLeaf,
   FaSpinner,
+  FaSeedling,
+  FaLightbulb,
+  FaDumbbell,
+  FaHandsHelping,
+  FaTrophy,
 } from "react-icons/fa";
 
 interface Person {
@@ -21,11 +21,11 @@ interface Person {
 }
 
 const GROUPS = [
-  { name: "Team Joy", icon: <FaSmile className="text-yellow-500" /> },
-  { name: "Team Peace", icon: <FaPeace className="text-blue-500" /> },
-  { name: "Team Love", icon: <FaHeart className="text-red-500" /> },
-  { name: "Team Grace", icon: <FaStar className="text-purple-500" /> },
-  { name: "Team Hope", icon: <FaLeaf className="text-green-500" /> },
+  { name: "Team Life", icon: <FaSeedling className="text-yellow-500" /> },
+  { name: "Team Light", icon: <FaLightbulb className="text-blue-500" /> },
+  { name: "Team Strength", icon: <FaDumbbell className="text-red-500" /> },
+  { name: "Team Mercy", icon: <FaHandsHelping className="text-purple-500" /> },
+  { name: "Team Victory", icon: <FaTrophy className="text-green-500" /> },
 ];
 
 export default function GroupsPage() {

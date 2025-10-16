@@ -87,11 +87,13 @@ const Registration = () => {
         {"\n\n"}
         Let us know your availability by filling this form
         {"\n\n"}
-        Date: 22nd November, 2025
-        {"\n"}
-        Arrival Time: 6:45am
-        {"\n\n"}
-        NO AFRICAN TIME!
+        <span className="text-[#d23915] font-medium text-center animate-blink">
+          Date: 22nd November, 2025
+          {"\n"}
+          Arrival Time: 6:45am
+          {"\n\n"}
+          NO AFRICAN TIME!
+        </span>
       </p>
 
       {/* WhatsApp Help Text */}
