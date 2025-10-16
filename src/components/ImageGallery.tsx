@@ -76,8 +76,8 @@ const DragDropGallery = () => {
         Upload Your Moments
       </motion.h2>
       <p className="text-lg text-center text-gray-700 mb-8">
-        Upload and share your moments with other brethren; let's create memories
-        together!
+        Upload and share your moments with other brethren; let&apos;s create
+        memories together!
       </p>
       <p className="text-md text-center text-red-700 mb-8 flex items-center justify-center gap-2">
         <FaExclamationTriangle className="text-red-700" />

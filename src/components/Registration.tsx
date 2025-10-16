@@ -87,7 +87,7 @@ const Registration = () => {
         {"\n\n"}
         Let us know your availability by filling this form
         {"\n\n"}
-        Date: 22nd November, 2025 (Tentative Date)
+        Date: 22nd November, 2025
         {"\n"}
         Arrival Time: 6:45am
         {"\n\n"}
@@ -241,8 +241,8 @@ const Registration = () => {
                 </label>
                 <select
                   className="mt-1 w-full border border-gray-300 rounded px-3 py-2 
-      text-[#000000] placeholder:text-gray-400
-      focus:border-[#ed7814] focus:ring-0"
+  text-[#000000] placeholder:text-gray-400
+  focus:border-[#ed7814] focus:ring-0"
                   defaultValue=""
                   {...register("category", {
                     required: "Please select a category",
@@ -251,8 +251,15 @@ const Registration = () => {
                   <option value="" disabled>
                     Select
                   </option>
-                  <option value="Teenager">Teenager</option>
-                  <option value="Adult">Adult</option>
+                  <option value="Teenager">
+                    Children (ages 7-12) - ₦3,000
+                  </option>
+                  <option value="Teenager">
+                    Teenager (ages 13-20) - ₦10,000
+                  </option>
+                  <option value="Adult">
+                    Adult (ages 21 and above) - ₦20,000
+                  </option>
                 </select>
                 {errors.category && (
                   <p className="text-red-500 text-sm">
@@ -293,15 +300,15 @@ const Registration = () => {
               {/* Coming With */}
               <div>
                 <label className="block font-normal text-black">
-                  Would you be coming with child(ren) or with someone? *
+                  Are you coming with anyone? *
                 </label>
                 <select
                   className="mt-1 w-full border border-gray-300 rounded px-3 py-2 
-                 text-[#000000] placeholder:text-gray-400
-                 focus:border-[#ed7814] focus:ring-0"
+        text-[#000000] placeholder:text-gray-400
+        focus:border-[#ed7814] focus:ring-0"
                   defaultValue=""
                   {...register("comingWith", {
-                    required: "Please select an option",
+                    required: "Please indicate if you are coming with anyone",
                   })}
                 >
                   <option value="" disabled>
@@ -323,18 +330,19 @@ const Registration = () => {
                 )}
               </div>
 
-              {/* Guest Names */}
-              {(comingWithValue === "Yes" ||
-                comingWithValue === "Coming with a Guest" ||
-                comingWithValue === "Coming with my spouse") && (
+              {/* Guest Names - Conditional rendering based on "Coming With" selection */}
+              {(comingWithValue === "Coming with my spouse" ||
+                comingWithValue === "Coming with a Guest") && (
                 <div>
                   <label className="block font-normal text-black">
-                    Please share their full name(s). Kindly separate multiple
-                    names with commas *
+                    {comingWithValue === "Coming with my spouse"
+                      ? "Spouse's Name"
+                      : "Guest's Name"}
+                    {comingWithValue === "Coming with a Guest" && " (if any)"}
                   </label>
                   <input
                     type="text"
-                    placeholder="Enter guest names separated by commas"
+                    placeholder="e.g. John Doe"
                     className="mt-1 w-full border border-gray-300 rounded px-3 py-2 
                    text-[#000000] placeholder:text-gray-400
                    focus:border-[#ed7814] focus:ring-0"
@@ -343,20 +351,21 @@ const Registration = () => {
                 </div>
               )}
 
-              {/* Paying For Guest */}
-              {(comingWithValue === "Yes" ||
-                comingWithValue === "Coming with my spouse" ||
-                comingWithValue === "Coming with a Guest") && (
+              {/* Paying for Guest - Conditional rendering based on "Coming With" selection */}
+              {comingWithValue === "Coming with a Guest" && (
                 <div>
                   <label className="block font-normal text-black">
-                    Would you be the one paying for them?
+                    Will you be paying for your guest? *
                   </label>
                   <select
                     className="mt-1 w-full border border-gray-300 rounded px-3 py-2 
         text-[#000000] placeholder:text-gray-400
         focus:border-[#ed7814] focus:ring-0"
                     defaultValue=""
-                    {...register("payingForGuest")}
+                    {...register("payingForGuest", {
+                      required:
+                        "Please indicate if you will be paying for your guest",
+                    })}
                   >
                     <option value="" disabled>
                       Select
@@ -364,55 +373,44 @@ const Registration = () => {
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                   </select>
+                  {errors.payingForGuest && (
+                    <p className="text-red-500 text-sm">
+                      {errors.payingForGuest.message}
+                    </p>
+                  )}
                 </div>
               )}
 
-              <div className="text-center mt-6">
-                <p className="mb-4 text-gray-600">
-                  Having a challenge with the form? Send a message via WhatsApp
-                  to{" "}
-                  <a
-                    href="https://wa.me/2348063629277"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#d23915] underline hover:text-[#b72318]"
-                  >
-                    Sis Wura
-                  </a>
-                  .
-                </p>
+              {/* Submit Button */}
+              <div>
                 <button
                   type="submit"
-                  className="bg-[#d23915] text-white cursor-pointer px-6 py-3 rounded-lg font-semibold hover:bg-[#b72318] transition flex items-center justify-center"
+                  className="w-full bg-[#d23915] text-white py-3 rounded-lg font-semibold hover:bg-[#b72318] transition flex items-center justify-center gap-2"
                   disabled={submitting}
                 >
-                  {submitting ? (
-                    <>
-                      <svg
-                        className="animate-spin h-5 w-5 mr-2 text-white"
-                        xmlns="http://www.w3.org/2000/svg"
+                  {submitting && (
+                    <svg
+                      className="animate-spin h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
                         fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        />
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                        />
-                      </svg>
-                      Submitting…
-                    </>
-                  ) : (
-                    "Submit"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v16a8 8 0 01-8-8z"
+                      />
+                    </svg>
                   )}
+                  Submit Registration
                 </button>
               </div>
             </form>
